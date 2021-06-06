@@ -1,0 +1,11 @@
+perks.commands.fly;
+perks.commands.speed;
+perks.commands.glow;
+
+perks.trails;
+perks.trails.totem;
+perks.trails.Dot;
+perks.trails.medbay;
+perks.trails.firepolygon;
+perks.trails.drill;
+perks.trails.sphere;

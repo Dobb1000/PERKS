@@ -1,0 +1,19 @@
+name: PERKS
+version: Release 1.0 (version 1.4)
+api-version: 1.13
+main: net.craftions.main.Main
+author: DobbCraft
+
+commands:
+  fly:
+    description: Fly
+    permission: perks.commands.fly
+  speed:
+    description: speed
+    permission: perks.commands.speed
+  glow:
+    description: glow
+    permission: perks.commands.glow
+  customhead:
+    description: customhead command
+    permission: perks.heads.custom
