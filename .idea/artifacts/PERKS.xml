@@ -4,7 +4,6 @@
     <root id="archive" name="PERKS.jar">
       <element id="module-output" name="PERKS" />
       <element id="file-copy" path="$PROJECT_DIR$/src/resources/plugin.yml" />
-      <element id="library" level="project" name="MySkin v3.3" />
     </root>
   </artifact>
 </component>

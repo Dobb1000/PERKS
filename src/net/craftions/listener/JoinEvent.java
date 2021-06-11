@@ -78,19 +78,6 @@ public class JoinEvent implements Listener {
                 int points = 8; // the amount of points the polygon should have.
 
                 public void run() {
-
-
-
-
-
-
-
-
-
-
-
-
-
                     Location playerloc = player.getLocation();
                     if (event.getPlayer().isFlying()) {
                         if (handleMenuGUIClick.Totemparticle.get(event.getPlayer())) {

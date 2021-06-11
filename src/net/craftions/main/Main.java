@@ -34,6 +34,7 @@ public class Main extends JavaPlugin {
     public static HashMap<String, Cow> cow = new HashMap<String, Cow>();
     public static HashMap<String, Sheep> sheep = new HashMap<String, Sheep>();
     public static HashMap<String, Chicken> chicken = new HashMap<String, Chicken>();
+
     public static Plugin plugin;
 
 
