@@ -93,7 +93,6 @@ public class TrailMenu implements Listener {
                 totem.setItemMeta(totemmeta);
                 inventory.setItem(0, totem);
             }
-
         }
         if (player.hasPermission("perks.trails.Dot")) {
             if (handleMenuGUIClick.Dot.get(player.getPlayer()) == "off") {

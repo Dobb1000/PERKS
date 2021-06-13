@@ -3,6 +3,7 @@ package net.craftions.listener;
 import net.craftions.main.Main;
 import net.craftions.pet.Pet;
 import net.craftions.util.events.handleMenuGUIClick;
+import net.craftions.util.particles.*;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -59,11 +60,10 @@ public class JoinEvent implements Listener {
             plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
 
                 //drill
-                double drillradius = 5;
 
-                boolean down = false;
-                float y = 0;
 
+
+                int points = 8;
                 Player player = event.getPlayer();
                 World world = player.getWorld();
 
@@ -73,170 +73,20 @@ public class JoinEvent implements Listener {
                 Particle.DustOptions greydustOptions = new Particle.DustOptions(Color.fromRGB(220,220,220), 1);
                 Location loc, first, second;
 
-                //Totem
-                double var = 0;
-                int points = 8; // the amount of points the polygon should have.
+
 
                 public void run() {
                     Location playerloc = player.getLocation();
-                    if (event.getPlayer().isFlying()) {
-                        if (handleMenuGUIClick.Totemparticle.get(event.getPlayer())) {
-                            if (player.hasPermission("perks.trails.Totem")) {
-                                var += Math.PI / 16;
-                                loc = player.getLocation();
-                                first = loc.clone().add(cos(var), sin(var) + 1, sin(var));
-                                second = loc.clone().add(cos(var + Math.PI), sin(var) + 1, sin(var + Math.PI));
-
-
-                                world.spawnParticle(Particle.TOTEM, first, 0);
-                                world.spawnParticle(Particle.TOTEM, second, 0);
-                            }
-                        }
-                        if (player.hasPermission("perks.trails.Dot")) {
-                            if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "Blue") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 0, 255), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-                            } else if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "Green") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(64, 255, 0), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-
-                            } else if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "Red") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 0, 0), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-
-                            } else if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "Violet") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(128, 0, 255), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-
-                            } else if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "Black") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-
-                            } else if (handleMenuGUIClick.Dot.get(event.getPlayer()) == "White") {
-                                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 1);
-                                world.spawnParticle(Particle.REDSTONE, player.getLocation(), 50, dustOptions);
-                            }
-
-
-                        }
+                    if (player.isFlying()) {
+                        Totem.totemparticle(player);
+                        Dot.dotparticle(player);
                     } else {
-
-                        if (player.hasPermission("perks.trails.medbay")) {
-                            if (handleMenuGUIClick.medbay.get(event.getPlayer())) {
-                                if (y >= 2) {
-                                    down = true;
-                                }
-                                if (y <= 0) {
-
-                                    down = false;
-                                }
-
-                                if (down) {
-                                    y -= 0.01;
-
-                                } else {
-
-                                    y += 0.01;
-                                }
-                                loc = player.getLocation();
-                                for (int degree = 0; degree <= 360; degree++) {
-                                    double radians = Math.toRadians(degree);
-                                    double x = cos(radians);
-                                    double z = sin(radians);
-                                    first = loc.clone().add(x, y, z);
-                                    world.spawnParticle(Particle.REDSTONE, first, 20, greendustOptions);
-                                }
+                        Medbay.Medbayparticle(player);
+                        Firepolygon.firepolygonparticle(player);
+                        Drill.drillparticle(player);
+                        Sphere.sphereparticle(player);
                             }
                         }
-
-
-
-                        if (player.hasPermission("perks.trails.firepolygon")) {
-                            if (handleMenuGUIClick.firepolygon.get(event.getPlayer())) {
-                                double playeryaw = player.getLocation().getYaw();
-                                for (int iteration = 0; iteration < points; iteration++) {
-                                    double angle = 360.0 / points * iteration;
-                                    double nextAngle = 360.0 / points * (iteration + 1); // the angle for the next point.
-                                    angle = Math.toRadians(angle);
-                                    nextAngle = Math.toRadians(nextAngle); // convert to radians.
-                                    double x = cos(angle);
-                                    double z = sin(angle);
-                                    double x2 = cos(nextAngle);
-                                    double z2 = sin(nextAngle);
-                                    double deltaX = x2 - x; // get the x-difference between the points.
-                                    double deltaZ = z2 - z; // get the z-difference between the points.
-                                    double distance = Math.sqrt((deltaX - x) * (deltaX - x) + (deltaZ - z) * (deltaZ - z));
-
-                                    for (double d = 0; d < distance - 1; d += 1) {
-                                        world.spawnParticle(Particle.FLAME, playerloc.clone().add(x + deltaX * d, 0, z + deltaZ * d ), 0);
-                                    }
-                                }
-                            }
-                        }
-                        if (player.hasPermission("perks.trails.sphere")) {
-                            if (handleMenuGUIClick.sphereparticle.get(event.getPlayer())) {
-
-                                for (double i = 0; i <= Math.PI; i += Math.PI / 10) {
-                                    double radius = Math.sin(i);
-                                    double y = Math.cos(i);
-                                    for (double a = 0; a < Math.PI * 2; a+= Math.PI / 5) {
-                                        double x = Math.cos(a) * radius;
-                                        double z = Math.sin(a) * radius;
-
-                                        world.spawnParticle(Particle.VILLAGER_HAPPY, playerloc.clone().add(x,y + 1,z) , 20);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (player.hasPermission("perks.trails.drill")) {
-                            if (handleMenuGUIClick.drill.get(event.getPlayer())) {
-                                for (double y = 5; y >= 0; y -= 0.007) {
-                                    drillradius = y / 3;
-                                    double x = drillradius * Math.cos(3 * y);
-                                    double z = drillradius * Math.sin(3 * y);
-
-                                    double y2 = 5 - y;
-
-
-                                    world.spawnParticle(Particle.REDSTONE, playerloc.clone().add(x, y2, z), 0, greydustOptions);
-                                }
-
-                                for (double y = 5; y >= 0; y -= 0.007) {
-                                    drillradius = y / 3;
-                                    double x = -(drillradius * Math.cos(3 * y));
-                                    double z = -(drillradius * Math.sin(3 * y));
-
-                                    double y2 = 5 - y;
-
-                                    world.spawnParticle(Particle.REDSTONE, playerloc.clone().add(x, y2, z), 10, greydustOptions);
-
-                                }
-                            }
-                        }
-
-
-
-
-
-
-
-                            }
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }, 0L, 1L);
 
 
